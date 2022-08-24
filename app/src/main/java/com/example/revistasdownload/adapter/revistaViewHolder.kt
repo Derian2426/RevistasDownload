@@ -20,7 +20,7 @@ class revistaViewHolder(view:View): RecyclerView.ViewHolder(view) {
         try {
             title.text=articulos.title
         publisher.text=articulos.date_published
-        date_published.text=articulos.date_published
+        date_published.text=articulos.doi
 
 
 

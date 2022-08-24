@@ -51,6 +51,7 @@ class Articulos (a: JSONObject)
             label=galera.getJSONObject(i).getString("label")
             file_id=galera.getJSONObject(i).getString("label")
             UrlViewGalley=galera.getJSONObject(i).getString("UrlViewGalley")
+
         }
 
     }
