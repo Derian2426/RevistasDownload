@@ -35,16 +35,14 @@ open class MainActivity : AppCompatActivity() {
         permisosSolicitados.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         permisosSolicitados.add(Manifest.permission.READ_EXTERNAL_STORAGE)
         permisosSolicitados.add(Manifest.permission.WRITE_CALENDAR)
-        val permisosAprobados:ArrayList<String?>   = adminPermisos.getPermisosAprobados(permisosSolicitados)
         val listPermisosNOAprob:ArrayList<String?> = adminPermisos.getPermisosNoAprobados(permisosSolicitados)
         adminPermisos.getPermission(listPermisosNOAprob)
         initRecycler()
-
     }
+
     private fun initRecycler(){
         val recyclerView=findViewById<RecyclerView>(R.id.idrecycler)
         recyclerView.layoutManager= LinearLayoutManager(this)
-        //var txt_json=findViewById<TextView>(R.id.json)
         val cola = Volley.newRequestQueue(this)
         val lstArticulos = ArrayList<Articulos>()
         var url="https://revistas.uteq.edu.ec/ws/pubs.php?i_id=1"
@@ -56,11 +54,6 @@ open class MainActivity : AppCompatActivity() {
                 lstArticulos.add(Articulos(item))
             }
             recyclerView.adapter= revistaAdapter(lstArticulos)
-
-
-
-
-
         }catch (error:Exception){
             Toast.makeText(this,
                 "Error al cargar datos del volumen",
@@ -72,20 +65,15 @@ open class MainActivity : AppCompatActivity() {
                 Toast.LENGTH_SHORT).show()
         })
         cola.add(request)
-
     }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         var resp:String  = adminPermisos.onRequestPermissionsResult(requestCode, permissions as Array<String>, grantResults)
         Toast.makeText(this.applicationContext, resp, Toast.LENGTH_LONG).show()
     }
-    fun MostrarDescargas(view: View?) {
-        val intent = Intent()
-        intent.action = DownloadManager.ACTION_VIEW_DOWNLOADS
-        startActivity(intent)
-    }
-    fun BajarDoc(view: View?) {
 
+    fun BajarDoc(view: View?) {
         val manager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
 
         val request =  DownloadManager.Request(Uri.parse("https://www.uteq.edu.ec/doc/investigacion/lineas_inv.pdf"))
@@ -96,9 +84,6 @@ open class MainActivity : AppCompatActivity() {
             .setVisibleInDownloadsUi(true)
             .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             .setDestinationInExternalFilesDir(this.applicationContext, Environment.DIRECTORY_DOWNLOADS,"downloadfile.pdf")
-
-
-
         try {
             downloadid = manager.enqueue(request)
             registerReceiver(MyBroadcastReceiver(downloadid), IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
@@ -109,7 +94,6 @@ open class MainActivity : AppCompatActivity() {
     }
 }
 class MyBroadcastReceiver(var downloadid: Long) : BroadcastReceiver() {
-
     override fun onReceive(context: Context?, intent: Intent?) {
         val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
         if (id == downloadid)

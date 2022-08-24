@@ -19,11 +19,8 @@ class revistaViewHolder(view:View): RecyclerView.ViewHolder(view) {
     fun render(articulos: Articulos){
         try {
             title.text=articulos.title
-        publisher.text=articulos.date_published
-        date_published.text=articulos.doi
-
-
-
+            publisher.text=articulos.date_published
+            date_published.text=articulos.doi
             foto.setOnClickListener {
                 var link: Uri = Uri.parse(articulos.UrlViewGalley)
                 var i: Intent = Intent(Intent.ACTION_VIEW, link)
@@ -33,5 +30,4 @@ class revistaViewHolder(view:View): RecyclerView.ViewHolder(view) {
             Toast.makeText(foto.context,  e.toString(),Toast.LENGTH_LONG).show()
         }
     }
-
 }
